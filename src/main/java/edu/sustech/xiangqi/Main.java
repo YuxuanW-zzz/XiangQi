@@ -15,7 +15,8 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JFrame loginFrame = new JFrame("登录");
+                JFrame loginFrame = new JFrame("登录或注册");
+                JFrame passwordFrame = new JFrame("用户名与密码");
                 loginFrame.setLayout(null);
                 loginFrame.setSize(800, 400);
 
@@ -45,6 +46,7 @@ public class Main {
                 loginFrame.add(username);
                 loginFrame.add(password);
 
+                          
                 JButton reg = new JButton("Register");
                 reg.setBounds(400, 300, 100, 30);
                 loginFrame.add(reg);
