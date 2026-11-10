@@ -15,9 +15,13 @@ public class Board {
     }
 
     private void initializePieces() {
-        pieces[9][3] = new AdvisorPiece();
-        pieces[9][4] = new GeneralPiece();
-        pieces[9][5] = new AdvisorPiece();
+        pieces[9][3] = new AdvisorPiece(true);
+        pieces[9][4] = new GeneralPiece(true);
+        pieces[9][5] = new AdvisorPiece(true);
+
+        pieces[0][3] = new AdvisorPiece(false);
+        pieces[0][4] = new GeneralPiece(false);
+        pieces[0][5] = new AdvisorPiece(false);
     }
 
     public boolean isInside(int row, int col) {

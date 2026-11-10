@@ -4,7 +4,7 @@ import edu.sustech.xiangqi.model.Board;
 import edu.sustech.xiangqi.model.Piece;
 import edu.sustech.xiangqi.view.BoardPanel;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,6 +17,7 @@ public class ChessController extends MouseAdapter {
     // 默认 -1 没有选中任何棋子
     private int selectedRow = -1;
     private int selectedCol = -1;
+    public JLabel label;
 
     public ChessController(Board board, BoardPanel boardPanel) {
         this.board = board;

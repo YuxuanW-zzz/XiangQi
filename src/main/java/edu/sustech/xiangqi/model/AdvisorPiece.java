@@ -1,10 +1,10 @@
 package edu.sustech.xiangqi.model;
 
-// 红仕：每次斜走一格，不能离开红方九宫
+// 士 / 仕：每次斜走一格，不能离开己方九宫
 
 public class AdvisorPiece extends Piece {
-    public AdvisorPiece() {
-        super("仕", true);
+    public AdvisorPiece(boolean isRed) {
+        super(isRed ? "仕" : "士", isRed);
     }
 
     @Override
@@ -19,8 +19,11 @@ public class AdvisorPiece extends Piece {
             return false;
         }
 
-        // 行判断
-        // TODO: 补齐黑方棋子的行判断
-        return toRow >= 7 && toRow <= 9;
+        // 红方九宫在下方，黑方九宫在上方
+        if (isRed()) {
+            return toRow >= 7 && toRow <= 9;
+        } else {
+            return toRow >= 0 && toRow <= 2;
+        }
     }
 }
