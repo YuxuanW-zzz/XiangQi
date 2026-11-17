@@ -18,10 +18,14 @@ public class Board {
         pieces[9][3] = new AdvisorPiece(true);
         pieces[9][4] = new GeneralPiece(true);
         pieces[9][5] = new AdvisorPiece(true);
+        pieces[9][1] = new HorsePiece(true);
+        pieces[9][7] = new HorsePiece(true);
 
         pieces[0][3] = new AdvisorPiece(false);
         pieces[0][4] = new GeneralPiece(false);
         pieces[0][5] = new AdvisorPiece(false);
+        pieces[0][1] = new HorsePiece(false);
+        pieces[0][7] = new HorsePiece(false);
     }
 
     public boolean isInside(int row, int col) {

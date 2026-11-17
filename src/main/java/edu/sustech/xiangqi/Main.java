@@ -27,6 +27,7 @@ public class Main {
                         && ("password:" + password).equals(passwordLine)) {
                     return true;
                 }
+                nameLine = reader.readLine();
             }
         }
         return false;
