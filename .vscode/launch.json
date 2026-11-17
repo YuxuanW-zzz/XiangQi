@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "运行 XiangQi（Main）",
+      "request": "launch",
+      "mainClass": "edu.sustech.xiangqi.Main",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole"
+    }
+  ]
+}

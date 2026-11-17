@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "javac: 编译全部源码",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-Command",
+        "javac -encoding UTF-8 -d out/production/XiangQi (Get-ChildItem -Recurse src/main/java -Filter *.java).FullName"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$javac"],
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "java: 直接运行 Main",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-Command",
+        "java -cp out/production/XiangQi edu.sustech.xiangqi.Main"
+      ],
+      "dependsOn": ["javac: 编译全部源码"],
+      "problemMatcher": []
+    }
+  ]
+}

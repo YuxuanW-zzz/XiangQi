@@ -9,16 +9,24 @@ public class  CarPiece extends Piece {
 
     @Override
     public boolean canMove(Board board, int fromRow, int fromCol, int toRow, int toCol) {
-        // 两方九宫都在第 3～5 列
         if((toRow - fromRow) *(toCol - fromCol) != 0){
             return false;
         }
         if(toRow - fromRow != 0){
-            id(toRow - fromRow > 0){
-                for(int i = fromCol ; i <= toRow;i++)
+            for(int i = fromRow + (toRow - fromRow) / Math.abs(toRow - fromRow); i != toRow ;
+             i += (toRow - fromRow) / Math.abs(toRow - fromRow)){
+                if(board.getPieceAt(i, toCol) != null){
+                    return false;
+                }
+            }
+        }else{
+            for(int i = fromCol + (toCol - fromCol) / Math.abs(toCol - fromCol); i != toCol ;
+             i += (toCol - fromCol) / Math.abs(toCol - fromCol)){
+                if(board.getPieceAt(toRow, i) != null){
+                    return false;
+                }
             }
         }
-        // 行列距离之和为 1，表示横走或竖走一格
-        return Math.abs(fromRow - toRow) + Math.abs(fromCol - toCol) == 1;
+        return true;
     }
 }
