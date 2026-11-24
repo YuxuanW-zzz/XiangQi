@@ -41,6 +41,7 @@ public class Main {
                 JFrame beginFrame = new JFrame("欢迎");
                 JFrame loginFrame = new JFrame("登录");
                 JFrame registerFrame = new JFrame("注册");
+                JFrame visitorloginFrame = new JFrame("游客登陆");
                 beginFrame.setSize(800, 600);
                 beginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 beginFrame.setLayout(null);
@@ -50,21 +51,30 @@ public class Main {
                 registerFrame.setSize(800, 600);
                 registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 registerFrame.setLayout(null);
+                visitorloginFrame.setSize(800 , 600);
+                visitorloginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                visitorloginFrame.setLayout(null);
 
                 // 创建按钮
                 JButton login = new JButton("Login");
                 JButton register = new JButton("Register");
+                JButton visitorlogin = new JButton("Visitor Login");
                 JButton confirmLogin = new JButton("Confirm");
                 JButton confirmRegister = new JButton("Confirm");
+                JButton confirmVisitor = new JButton("Confirm");
                 confirmLogin.setBounds(350, 300, 100, 30);
                 confirmRegister.setBounds(350, 300, 100, 30);
-                register.setBounds(400, 300, 100, 30);
-                login.setBounds(300, 300, 80, 30);
+                confirmVisitor.setBounds(350 ,300 ,100 , 30);
+                register.setBounds(250, 200, 200, 30);
+                login.setBounds(250, 300, 200, 30);
+                visitorlogin.setBounds(250, 400, 200, 30);
                 loginFrame.add(confirmLogin);
                 registerFrame.add(confirmRegister);
+                visitorloginFrame.add(confirmVisitor);
 
                 beginFrame.add(login);
                 beginFrame.add(register);
+                beginFrame.add(visitorlogin);
                 beginFrame.setVisible(true);
 
                 // 创建标签和文本框
@@ -100,6 +110,7 @@ public class Main {
 
                 login.addActionListener(e -> loginFrame.setVisible(true));
                 register.addActionListener(e -> registerFrame.setVisible(true));
+                visitorlogin.addActionListener(e -> visitorloginFrame.setVisible(true));
                 confirmLogin.addActionListener(e -> {
                     try {
                         if (!checkLogin(usernameLoginField.getText(), passwordLoginField.getText())) {
@@ -128,7 +139,15 @@ public class Main {
                         JOptionPane.showMessageDialog(registerFrame, "保存用户文件失败：" + ex.getMessage());
                     }
                 });
-
+                confirmVisitor.addActionListener(e -> {
+                    Board board = new Board();
+                    ChessFrame frame = new ChessFrame(board);
+                    ChessController controller = new ChessController(board, frame.getBoardPanel());
+                    frame.getBoardPanel().addMouseListener(controller);
+                    frame.setVisible(true);
+                    visitorloginFrame.dispose();
+                    beginFrame.dispose();
+                });
             }
         });
     }
