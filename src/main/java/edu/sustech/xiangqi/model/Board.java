@@ -9,9 +9,18 @@ public class Board {
 
     // 存储棋子位置
     private final Piece[][] pieces = new Piece[ROWS][COLS];
+    private boolean redTurn = true;
+    public enum GameStatus { IN_PROGRESS, CHECK, RED_WINS, BLACK_WINS }
+
+    private GameStatus status;
 
     public Board() {
         initializePieces();
+        updateStatus();
+    }
+
+    public GameStatus getStatus() {
+        return status;
     }
 
     private void initializePieces() {
@@ -62,6 +71,9 @@ public class Board {
     }
 
     public boolean tryMove(int fromRow, int fromCol, int toRow, int toCol) {
+        if (status == GameStatus.RED_WINS || status == GameStatus.BLACK_WINS) {
+            return false;
+        }
         if (!isInside(fromRow, fromCol) || !isInside(toRow, toCol)) {
             return false;
         }
@@ -70,14 +82,22 @@ public class Board {
         }
 
         Piece piece = getPieceAt(fromRow, fromCol);
-        if (piece == null) {
+        if (piece == null || piece.isRed() != redTurn) {
             return false;
         }
 
-        // TODO: 加入回合检查，只允许当前一方移动自己的棋子
+        if (!moveIfLegal(piece, fromRow, fromCol, toRow, toCol, true)) {
+            return false;
+        }
+        redTurn = !redTurn;
+        updateStatus();
+        return true;
+    }
 
-        // TODO: 区分己方占用与敌方棋子，并实现吃子
-        if (getPieceAt(toRow, toCol) != null) {
+    private boolean moveIfLegal(Piece piece, int fromRow, int fromCol,
+                                int toRow, int toCol, boolean commit) {
+        Piece target = pieces[toRow][toCol];
+        if (target != null && target.isRed() == piece.isRed()) {
             return false;
         }
 
@@ -85,11 +105,79 @@ public class Board {
             return false;
         }
 
-        // TODO: 检查走完后己方将帅是否安全
         pieces[fromRow][fromCol] = null;
         pieces[toRow][toCol] = piece;
+        boolean legal = isGeneralSafe(redTurn);
+        if (!legal || !commit) {
+            pieces[fromRow][fromCol] = piece;
+            pieces[toRow][toCol] = target;
+        }
+        return legal;
+    }
 
-        // TODO: 仅在成功移动后切换回合，并判断将军、胜负等状态
-        return true;
+    private void updateStatus() {
+        if (!hasLegalMove()) {
+            status = redTurn ? GameStatus.BLACK_WINS : GameStatus.RED_WINS;
+        } else {
+            status = isGeneralSafe(redTurn) ? GameStatus.IN_PROGRESS : GameStatus.CHECK;
+        }
+    }
+
+    private boolean hasLegalMove() {
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                Piece piece = pieces[row][col];
+                if (piece == null || piece.isRed() != redTurn) {
+                    continue;
+                }
+                for (int toRow = 0; toRow < ROWS; toRow++) {
+                    for (int toCol = 0; toCol < COLS; toCol++) {
+                        if (moveIfLegal(piece, row, col, toRow, toCol, false)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isGeneralSafe(boolean red) {
+        int palaceStart = red ? 7 : 0;
+        for (int row = palaceStart; row < palaceStart + 3; row++) {
+            for (int col = 3; col <= 5; col++) {
+                Piece piece = pieces[row][col];
+                if (piece instanceof GeneralPiece && piece.isRed() == red) {
+                    return !areGeneralsFacing(red, row, col) && !isGeneralAttacked(red, row, col);
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean areGeneralsFacing(boolean red, int generalRow, int generalCol) {
+        int step = red ? -1 : 1;
+        for (int row = generalRow + step; row >= 0 && row < ROWS; row += step) {
+            Piece piece = pieces[row][generalCol];
+            if (piece != null) {
+                return piece instanceof GeneralPiece && piece.isRed() != red;
+            }
+        }
+        return false;
+    }
+
+    private boolean isGeneralAttacked(boolean red, int generalRow, int generalCol) {
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLS; col++) {
+                Piece attacker = pieces[row][col];
+                if (attacker == null || attacker.isRed() == red) {
+                    continue;
+                }
+                if (attacker.canMove(this, row, col, generalRow, generalCol)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
