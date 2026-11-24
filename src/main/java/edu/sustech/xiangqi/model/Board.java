@@ -24,6 +24,8 @@ public class Board {
         pieces[9][8] = new CarPiece(true);
         pieces[7][1] = new PaoPiece(true);
         pieces[7][7] = new PaoPiece(true);
+        pieces[9][2] = new XiangPiece(true);
+        pieces[9][6] = new XiangPiece(true);
 
         pieces[0][3] = new AdvisorPiece(false);
         pieces[0][4] = new GeneralPiece(false);
@@ -34,6 +36,8 @@ public class Board {
         pieces[0][8] = new CarPiece(false);
         pieces[2][1] = new PaoPiece(false);
         pieces[2][7] = new PaoPiece(false);
+        pieces[0][2] = new XiangPiece(false);
+        pieces[0][6] = new XiangPiece(false);
     }
 
     public boolean isInside(int row, int col) {
