@@ -26,6 +26,11 @@ public class Board {
         pieces[7][7] = new PaoPiece(true);
         pieces[9][2] = new XiangPiece(true);
         pieces[9][6] = new XiangPiece(true);
+        pieces[6][0] = new BingPiece(true);
+        pieces[6][2] = new BingPiece(true);
+        pieces[6][4] = new BingPiece(true);
+        pieces[6][6] = new BingPiece(true);
+        pieces[6][8] = new BingPiece(true);
 
         pieces[0][3] = new AdvisorPiece(false);
         pieces[0][4] = new GeneralPiece(false);
@@ -38,6 +43,11 @@ public class Board {
         pieces[2][7] = new PaoPiece(false);
         pieces[0][2] = new XiangPiece(false);
         pieces[0][6] = new XiangPiece(false);
+        pieces[3][0] = new BingPiece(false);
+        pieces[3][2] = new BingPiece(false);
+        pieces[3][4] = new BingPiece(false);
+        pieces[3][6] = new BingPiece(false);
+        pieces[3][8] = new BingPiece(false);
     }
 
     public boolean isInside(int row, int col) {
